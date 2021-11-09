@@ -1,0 +1,23 @@
+.container {
+    position: relative;
+    z-index: 1;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+    box-shadow: 1px -2px 7px 5px rgb(190, 188, 188);
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 50px;
+}
+
+.title {
+    grid-column-start: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signupbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
