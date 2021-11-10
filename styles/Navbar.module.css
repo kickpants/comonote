@@ -18,6 +18,23 @@
 
 .signupbutton {
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 2vw;
+}
+
+.sign_in {
+    display: flex;
     justify-content: center;
     align-items: center;
+    transition: all ease-in-out 200ms;
+}
+
+.sign_in:hover {
+    background-color: hsl(0, 0%, 95%);
+    color: hsl(0, 0%, 10%)
+}
+
+.sign_in:active {
+    background-color: hsl(0, 0%, 50%);
 }

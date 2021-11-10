@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
 
 html,
 body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
 }
 
 a {
@@ -15,4 +16,27 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+input {
+  font-size: 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  border-radius: 8px;
+  border: 1px solid #f1f1f1;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 12pt;
+  color: hsl(0, 0%, 20%);
+  border: 1px solid hsl(0, 0%, 85%);
+  border-radius: 25px;
+  background-color: hsl(0, 0%, 100%);
+  padding: 8px 12px 8px 12px;
+}
+
+input:focus, textarea:focus, select:focus{
+  outline: none;
 }

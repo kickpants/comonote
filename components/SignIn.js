@@ -13,8 +13,8 @@ const SignInButton = () => {
     }
 
     return (
-        <button className={styles.signupbutton} onClick={googleSignIn}>
-            <FcGoogle /> Sign In
+        <button className={styles.sign_in} onClick={googleSignIn}>
+            <FcGoogle />&nbsp;Sign In
         </button>
     );
 }
