@@ -29,4 +29,28 @@
   align-items: center;
   font-size: 16pt;
   color: hsl(0, 0%, 70%);
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+
+.new_note:hover {
+  color: hsl(0, 0%, 20%);
+}
+
+.new_note_input {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 16pt;
+  color: hsl(0, 0%, 20%);
+  cursor: pointer;
+}
+
+.note_input {
+  background-color: #f5f9fc;
+  color: hsl(0, 0%, 20%);
+  border: none;
+  border-bottom: 1px solid hsl(0, 0%, 90%);
+  width: clamp(300px, 30vw, 675px); 
 }

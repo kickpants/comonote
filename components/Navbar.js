@@ -11,7 +11,7 @@ const Navbar = () => {
     return (
         <div className={styles.container}>
             <div className={styles.title}>
-                <h3>Hello</h3>
+                <h3>monote</h3>
             </div>
             <div className={styles.signupbutton}>
                 { username ?
