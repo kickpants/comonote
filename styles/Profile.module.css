@@ -1,0 +1,20 @@
+.imgcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 43px;
+  width: 43px;
+  background-color: hsl(0, 0%, 50%);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.img {
+  border-radius: 50%;
+  height: 37px;
+  transition: all ease-in-out 200ms;
+}
+
+.img:hover {
+  opacity: 0.7;
+}

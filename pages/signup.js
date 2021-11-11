@@ -5,6 +5,7 @@ import { firestore } from "../lib/firebase";
 import debounce from "lodash.debounce";
 import styles from "../styles/SignUp.module.css";
 import Loader from "../components/Loader";
+import { useRouter } from "next/router";
 
 const SignUp = (props) => {
   const { user, username } = useContext(userContext);
@@ -12,6 +13,7 @@ const SignUp = (props) => {
   const [isValid, setIsValid] = useState(false);
   const [isloading, setIsLoading] = useState(false);
   const validStyle = {};
+  const router = useRouter();
 
   const onChange = (e) => {
     const input = e.target.value.toLowerCase();
@@ -61,6 +63,8 @@ const SignUp = (props) => {
     batch.set(usernameRef, { uid: user.uid });
 
     batch.commit();
+
+    router.push(`/${displayName}`);
   };
 
   return (

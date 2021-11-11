@@ -1,0 +1,32 @@
+.list_container {
+  background-size: cover;
+  background-color: #f5f9fc;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.list_elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: clamp(400px, 40vw, 900px);
+  height: 100%;
+  border: 1px solid hsl(0, 0%, 90%);
+  padding-left: 3vw;
+  padding-top: 3vh;
+}
+
+.new_note {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 16pt;
+  color: hsl(0, 0%, 70%);
+}
