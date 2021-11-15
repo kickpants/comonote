@@ -3,11 +3,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { firestore, timestamp, fromMillis } from "../../lib/firebase";
 import styles from "../../styles/UserPage.module.css";
 import { v4 as uuidv4 } from "uuid";
+import { useContext } from "react";
+import { userContext } from "../../lib/context"
 
 const userList = ({ username, posts }) => {
   const [addNote, setAddNote] = useState(true);
   const [noteContent, setNoteContent] = useState("");
   const [currentNotes, setCurrentNotes] = useState(posts);
+  const context = useContext(userContext); 
 
   const inputState = () => {
     setAddNote(!addNote);
@@ -40,12 +43,12 @@ const userList = ({ username, posts }) => {
     <div className={styles.list_container}>
       <div className={styles.list_elements}>
         {currentNotes.map(post => (
-          <div>{post.noteContent}</div>
+          <div className={styles.note}><div className={styles.dot}></div>&nbsp;{post.noteContent}</div>
         ))}
-        {addNote ? (
+        {context.username === username ? addNote ? (
           <div className={styles.new_note} onClick={inputState}>
             <AiOutlinePlus />
-            &nbsp;New note
+            &nbsp;New Note
           </div>
         ) : (
           <div className={styles.new_note_input}>
@@ -59,7 +62,7 @@ const userList = ({ username, posts }) => {
               />
             </form>
           </div>
-        )}
+        ) : null }
       </div>
     </div>
   );
@@ -71,7 +74,7 @@ export async function getServerSideProps({ query }) {
   let posts = null;
 
   const usernameDoc = firestore.collection('usernames').doc(username);
-  const postsQuery = usernameDoc.collection('posts').orderBy('createdAt', 'desc');
+  const postsQuery = usernameDoc.collection('posts').orderBy('createdAt');
 
   posts = (await postsQuery.get()).docs.map(doc => {
     const data = doc.data();
