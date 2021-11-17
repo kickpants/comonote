@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { firestore, timestamp, fromMillis } from "../../lib/firebase";
+import { firestore, timestamp } from "../../lib/firebase";
 import styles from "../../styles/UserPage.module.css";
+import Note from "../../components/Note";
 import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
 import { userContext } from "../../lib/context"
@@ -11,6 +12,10 @@ const userList = ({ username, posts }) => {
   const [noteContent, setNoteContent] = useState("");
   const [currentNotes, setCurrentNotes] = useState(posts);
   const context = useContext(userContext); 
+
+  useEffect(() => {
+    setCurrentNotes(posts);
+  }, [username]);
 
   const inputState = () => {
     setAddNote(!addNote);
@@ -42,9 +47,11 @@ const userList = ({ username, posts }) => {
   return (
     <div className={styles.list_container}>
       <div className={styles.list_elements}>
-        {currentNotes.map(post => (
-          <div className={styles.note}><div className={styles.dot}></div>&nbsp;{post.noteContent}</div>
-        ))}
+        <ul>
+          {currentNotes.map(post => (
+            <Note noteContent={post.noteContent} />
+          ))}
+        </ul>
         {context.username === username ? addNote ? (
           <div className={styles.new_note} onClick={inputState}>
             <AiOutlinePlus />

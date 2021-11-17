@@ -40,3 +40,8 @@ button {
 input:focus, textarea:focus, select:focus{
   outline: none;
 }
+
+ul {
+  padding: 0px;
+  margin: 0px;
+}
