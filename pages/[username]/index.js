@@ -1,24 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { firestore, timestamp } from "../../lib/firebase";
 import styles from "../../styles/UserPage.module.css";
 import Note from "../../components/Note";
 import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
-import { userContext } from "../../lib/context"
+import { userContext } from "../../lib/context";
 
-const userList = ({ username, posts }) => {
+const userList = ({ username, notes }) => {
   const [addNote, setAddNote] = useState(true);
   const [noteContent, setNoteContent] = useState("");
-  const [currentNotes, setCurrentNotes] = useState(posts);
-  const context = useContext(userContext); 
+  const [currentNotes, setCurrentNotes] = useState(notes);
+  const context = useContext(userContext);
 
   useEffect(() => {
-    setCurrentNotes(posts);
+    setCurrentNotes(notes);
+    console.log(notes);
   }, [username]);
 
   const inputState = () => {
     setAddNote(!addNote);
+  };
+
+  const onRemoveNote = (id) => {
+    setCurrentNotes(currentNotes.filter(item => item.id !== id))
+    console.log(id);
+
+    const userRef = firestore.collection('usernames').doc(username);
+    userRef.collection('posts').doc(id).delete().then(() => {
+      console.log("Document successfully deleted!");
+    })
   };
 
   const onAddNote = (e) => {
@@ -30,14 +41,13 @@ const userList = ({ username, posts }) => {
       const postsRef = usernameRef.collection("posts");
       const id = uuidv4();
 
-      setCurrentNotes([...currentNotes, {noteContent: noteContent}])
+      setCurrentNotes([...currentNotes, { noteContent: noteContent, id: id }]);
 
       postsRef.doc(id).set({
         noteContent: noteContent,
-        createdAt: timestamp
+        createdAt: timestamp,
       });
     }
-
   };
 
   const onChange = (e) => {
@@ -48,28 +58,37 @@ const userList = ({ username, posts }) => {
     <div className={styles.list_container}>
       <div className={styles.list_elements}>
         <ul>
-          {currentNotes.map(post => (
-            <Note noteContent={post.noteContent} />
+          {currentNotes.map((note) => (
+            <div key={note.id} className={styles.list_item}>
+              <Note noteContent={note.noteContent} />
+              &nbsp;
+              <AiOutlineClose
+                className={styles.delete}
+                onClick={() => onRemoveNote(note.id)}
+              />
+            </div>
           ))}
         </ul>
-        {context.username === username ? addNote ? (
-          <div className={styles.new_note} onClick={inputState}>
-            <AiOutlinePlus />
-            &nbsp;New Note
-          </div>
-        ) : (
-          <div className={styles.new_note_input}>
-            <AiOutlinePlus />
-            &nbsp;
-            <form onSubmit={onAddNote}>
-              <input
-                className={styles.note_input}
-                value={noteContent}
-                onChange={onChange}
-              />
-            </form>
-          </div>
-        ) : null }
+        {context.username === username ? (
+          addNote ? (
+            <div className={styles.new_note} onClick={inputState}>
+              <AiOutlinePlus />
+              &nbsp;New Note
+            </div>
+          ) : (
+            <div className={styles.new_note_input}>
+              <AiOutlinePlus onClick={inputState} />
+              &nbsp;
+              <form onSubmit={onAddNote}>
+                <input
+                  className={styles.note_input}
+                  value={noteContent}
+                  onChange={onChange}
+                />
+              </form>
+            </div>
+          )
+        ) : null}
       </div>
     </div>
   );
@@ -78,20 +97,21 @@ const userList = ({ username, posts }) => {
 export async function getServerSideProps({ query }) {
   const { username } = query;
 
-  let posts = null;
+  let notes = null;
+  let count = 0;
 
   const usernameDoc = firestore.collection('usernames').doc(username);
   const postsQuery = usernameDoc.collection('posts').orderBy('createdAt');
 
-  posts = (await postsQuery.get()).docs.map(doc => {
+  notes = (await postsQuery.get()).docs.map((doc) => {
     const data = doc.data();
     const date = data.createdAt.toDate();
-    return { ...data, createdAt: date.toString() }
+    return { ...data, createdAt: date.toString(), id: doc.id };
   });
-  console.log(posts);
+  console.log(notes);
 
   return {
-    props: { username, posts },
+    props: { username, notes },
   };
 }
 

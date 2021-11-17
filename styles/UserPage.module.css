@@ -19,6 +19,7 @@
   height: 100%;
   border: 1px solid hsl(0, 0%, 90%);
   padding-left: 3vw;
+  padding-right: 3vw;
   padding-top: 3vh;
 }
 
@@ -69,8 +70,34 @@
 
 .note_input {
   background-color: #f5f9fc;
-  color: hsl(0, 0%, 20%);
+  color: hsl(0, 0%, 40%);
+  font-weight: 300;
+  font-size: 16pt;
   border: none;
   border-bottom: 1px solid hsl(0, 0%, 90%);
   width: clamp(300px, 30vw, 675px); 
+}
+
+.list_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list_item:hover .delete {
+  opacity: 0.4;
+}
+
+.list_item:hover .delete:hover {
+  opacity: 1;
+}
+
+.delete {
+  color: hsl(0, 0%, 40%);
+  opacity: 0;
+  margin-bottom: 2px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
 }

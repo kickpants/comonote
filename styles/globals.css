@@ -44,4 +44,5 @@ input:focus, textarea:focus, select:focus{
 ul {
   padding: 0px;
   margin: 0px;
+  width: 100%;
 }

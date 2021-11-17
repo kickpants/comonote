@@ -2,14 +2,11 @@ import React from "react";
 import styles from "../styles/Profile.module.css";
 import Link from "next/link";
 import { auth } from "../lib/firebase";
-import router, { useRouter } from "next/router";
 
 const DropdownMenu = (props) => {
-	const router = useRouter();
-
+  
 	const signOut = () => {
 		auth.signOut();
-		router.push('/');
 	}
 
   return (
@@ -24,7 +21,7 @@ const DropdownMenu = (props) => {
       </div>
 			<hr className={styles.divider}/>
       <div className={styles.dropdown_main}>
-				<Link href={`/${props.username}`} prefetch={false}><div className={styles.lists_button}>My Lists</div></Link>
+				<Link href={`/${props.username}`}><div className={styles.lists_button}>My Lists</div></Link>
 				<div className={styles.lists_button} onClick={signOut}>Sign Out</div>
       </div>
     </div>	
