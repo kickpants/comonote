@@ -11,12 +11,19 @@ const userList = ({ username, notes }) => {
   const [addNote, setAddNote] = useState(true);
   const [noteContent, setNoteContent] = useState("");
   const [currentNotes, setCurrentNotes] = useState(notes);
+  const [editAuth, setEditAuth] = useState(null)
   const context = useContext(userContext);
 
   useEffect(() => {
     setCurrentNotes(notes);
+    if(context.username === username){
+      setEditAuth(true);
+    } else {
+      setEditAuth(false);
+    }
+    console.log(context.username + '' + username);
     console.log(notes);
-  }, [username]);
+  }, [context, username]);
 
   const inputState = () => {
     setAddNote(!addNote);
@@ -62,14 +69,16 @@ const userList = ({ username, notes }) => {
             <div key={note.id} className={styles.list_item}>
               <Note noteContent={note.noteContent} />
               &nbsp;
-              <AiOutlineClose
-                className={styles.delete}
-                onClick={() => onRemoveNote(note.id)}
-              />
+              {editAuth && 
+                <AiOutlineClose
+                  className={styles.delete}
+                  onClick={() => onRemoveNote(note.id)}
+                />
+              }
             </div>
           ))}
         </ul>
-        {context.username === username ? (
+        {editAuth ? (
           addNote ? (
             <div className={styles.new_note} onClick={inputState}>
               <AiOutlinePlus />
