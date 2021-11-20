@@ -25,18 +25,23 @@
 
 .note {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
   color: hsl(0, 0%, 40%);
   font-size: 16pt;
   margin-bottom: 5px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
 }
 
 .dot {
+  display: block;
   height: 10px;
   width: 10px;
-  margin-left: 6px;
-  margin-right: 6px;
+  margin-right: .2em;
+  margin-left: .2em;
   border-radius: 50%;
   border: 2px solid hsl(0, 0%, 40%);
 }
@@ -95,9 +100,79 @@
 
 .delete {
   color: hsl(0, 0%, 40%);
+  align-self: flex-start;
+  margin-top: 6px;
   opacity: 0;
   margin-bottom: 2px;
   height: 20px;
   width: 20px;
   cursor: pointer;
 }
+
+.spacer {
+  padding-left: 5px;
+}
+
+.arrow_rotated {
+  transform: rotate(180deg);
+  transition: all 0.2s ease-out;
+}
+
+.arrow_rotate {
+  transform: rotate(0deg);
+  transition: all 0.2s ease-out;
+}
+
+.note_title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.subnote_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-right: 1px solid hsl(0, 0%, 90%);
+  margin-top: 6px;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  width: 100%;
+}
+
+.subnote_container > div {
+  font-size: 13pt;
+  font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom:3px;
+}
+
+.subnote {
+  color: hsl(0, 0%, 50%);
+}
+
+.new_subnote {
+  color: hsl(0, 0%, 70%);
+}
+
+.new_subnote:hover {
+  color: hsl(0, 0%, 50%);
+}
+
+.input_subnote{
+  font-size: 13pt;
+  font-family: 'Montserrat', sans-serif;;
+  display: block;
+  background-color: #f5f9fc;
+  color: hsl(0, 0%, 50%);
+  border: none;
+  width: clamp(250px, 27vw, 600px);
+  outline: none;
+  overflow: hidden;
+  border-bottom: 1px solid hsl(0, 0%, 90%);
+}
+

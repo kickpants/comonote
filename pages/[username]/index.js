@@ -48,7 +48,7 @@ const userList = ({ username, notes }) => {
       const postsRef = usernameRef.collection("posts");
       const id = uuidv4();
 
-      setCurrentNotes([...currentNotes, { noteContent: noteContent, id: id }]);
+      setCurrentNotes([...currentNotes, { noteContent: noteContent, id: id, }]);
 
       postsRef.doc(id).set({
         noteContent: noteContent,
@@ -67,18 +67,19 @@ const userList = ({ username, notes }) => {
         <ul>
           {currentNotes.map((note) => (
             <div key={note.id} className={styles.list_item}>
-              <Note noteContent={note.noteContent} />
+              <Note note={note} editAuth={editAuth} subNotes={null} />
               &nbsp;
               {editAuth && 
                 <AiOutlineClose
                   className={styles.delete}
+                  style={{flex: 'none'}}
                   onClick={() => onRemoveNote(note.id)}
                 />
               }
             </div>
           ))}
         </ul>
-        {editAuth ? (
+        {editAuth && (
           addNote ? (
             <div className={styles.new_note} onClick={inputState}>
               <AiOutlinePlus />
@@ -97,7 +98,7 @@ const userList = ({ username, notes }) => {
               </form>
             </div>
           )
-        ) : null}
+        )}
       </div>
     </div>
   );
@@ -115,7 +116,7 @@ export async function getServerSideProps({ query }) {
   notes = (await postsQuery.get()).docs.map((doc) => {
     const data = doc.data();
     const date = data.createdAt.toDate();
-    return { ...data, createdAt: date.toString(), id: doc.id };
+    return { ...data, createdAt: date.toString(), id: doc.id  };
   });
   console.log(notes);
 
