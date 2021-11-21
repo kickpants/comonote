@@ -10,23 +10,26 @@ const Note = (props) => {
   const [drop, setDrop] = useState(false);
   const [addSubNote, setAddSubNote] = useState(false);
   const [subNoteContent, setSubNoteContent] = useState("");
-  const [currSubNotes, setCurrSubNotes] = useState(props.note.subnotes);
+  //set client side list to include server fetched list
+  const [currSubNotes, setCurrSubNotes] = useState(props.note.subnotes); 
   const context = useContext(userContext);
 
   const onAddSubNote = (e) => {
     e.preventDefault();
-    setAddSubNote(!addSubNote);
-    console.log(subNoteContent);
+    setAddSubNote(!addSubNote); //hide user input bar
+    //console.log(subNoteContent);
 
+    //enusre something is even typed in
     if (subNoteContent.length > 0) {
       const userRef = firestore.collection("usernames").doc(context.username);
       const postsRef = userRef.collection("posts").doc(props.note.id);
-      const subnoteId = uuidv4();
+      //console.log(currSubNotes);
 
-      console.log(currSubNotes);
-
+      //given the user already has at least one sub note...
       if (currSubNotes) {
+        //update client
         setCurrSubNotes([...currSubNotes, subNoteContent]);
+        //update server
         postsRef.update({
           subnotes: [...currSubNotes, subNoteContent],
         });
