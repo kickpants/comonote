@@ -64,6 +64,10 @@ const List = ({ username, notes, editAuth, listId }) => {
         belongsTo: currentList,
       });
     }
+
+    //clean up user input
+    setNoteContent("");
+    setAddNote(!addNote);
   };
 
   const onChange = (e) => {
@@ -102,6 +106,7 @@ const List = ({ username, notes, editAuth, listId }) => {
                 className={styles.note_input}
                 value={noteContent}
                 onChange={onChange}
+                autoFocus
               />
             </form>
           </div>

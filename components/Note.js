@@ -16,7 +16,6 @@ const Note = (props) => {
 
   const onAddSubNote = (e) => {
     e.preventDefault();
-    setAddSubNote(!addSubNote); //hide user input bar
     //console.log(subNoteContent);
 
     //enusre something is even typed in
@@ -40,6 +39,8 @@ const Note = (props) => {
         });
       }
 
+      //clean up user input
+      setAddSubNote(!addSubNote); 
       setSubNoteContent("");
     }
   };
@@ -59,6 +60,7 @@ const Note = (props) => {
             currSubNotes.map((item) => (
               <div key={item.id} className={styles.subnote}>
                 <div className={styles.dot} style={{ flex: "none" }} />
+                &nbsp;
                 <span className={styles.spacer}>{item}</span>
               </div>
             ))}
@@ -73,7 +75,7 @@ const Note = (props) => {
               </div>
             ) : (
               <div className={styles.new_subnote}>
-                <AiOutlinePlus onClick={() => setAddSubNote(!addSubNote)} />
+                <AiOutlinePlus onClick={() => setAddSubNote(!addSubNote)} style={{ flex: "none"}}/>
                 &nbsp;
                 <form onSubmit={onAddSubNote}>
                   <input

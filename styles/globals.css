@@ -46,3 +46,21 @@ ul {
   margin: 0px;
   width: 100%;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(0, 0%, 98%); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: hsl(0, 0%, 80%); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(0, 0%, 70%); 
+}

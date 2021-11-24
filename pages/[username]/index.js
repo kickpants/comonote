@@ -46,19 +46,20 @@ const userPage = ({ username, notes, userLists }) => {
     
     notesQuery.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
           userRef.collection('posts').doc(doc.id).delete();
       });
     });
 
+    //finds index of list to be deleted (as a reference)
     const index = lists.findIndex(list => list.id === id);
-
+    //checks to left and right of to-be-deleted list to find suitable replacement
     if(lists[index+1] !== undefined){
       setSelectedList(lists[index+1].id);
     } else if(lists[index-1] !== undefined) {
       setSelectedList(lists[index-1].id);
     }
+    //if none is found, useEffect hook will notice there are no remaining lists on DOM refresh
 
     setLists(lists.filter(list => list.id !== id));
 
@@ -77,12 +78,17 @@ const userPage = ({ username, notes, userLists }) => {
     listRef
       .add({
         listName: listName,
+        createdAt: timestamp,
       })
       .then(() => {
         refreshData();
       });
 
     //console.log(lists);
+
+    //clean up input
+    setListName("");
+    setAddList(!addList);
   };
 
   const refreshData = () => {
@@ -105,19 +111,21 @@ const userPage = ({ username, notes, userLists }) => {
             <div className={styles.list_button}>
               <div
                 className={styles.list_title}
+                style={list.id === selectedList ? { backgroundColor: "hsl(0, 0%, 95%)"} : null}
                 onClick={() => changeList(list)}
               >
                 <div className={styles.dot} />
                 &nbsp;{list.listName}
               </div>
               &nbsp;
-              <div><BiTrashAlt className={styles.list_delete} onClick={() => onRemove(list.id)}/></div>
+              <div>{editAuth && <BiTrashAlt className={styles.list_delete} onClick={() => onRemove(list.id)}/>}</div>
             </div>
           ))}
+          <hr className={styles.list_input_spacer} />
           {editAuth &&
             (addList ? (
               <form onSubmit={onSubmit}>
-                <AiOutlinePlus />
+                <AiOutlinePlus onClick={() => setAddList(!addList)}/>
                 &nbsp;
                 <input
                   className={styles.list_input}
@@ -127,7 +135,7 @@ const userPage = ({ username, notes, userLists }) => {
                 />
               </form>
             ) : (
-              <div onClick={() => setAddList(!addList)}>
+              <div onClick={() => setAddList(!addList)} className={styles.list_newlistbutton}>
                 <AiOutlinePlus />
                 &nbsp;New List
               </div>
@@ -171,10 +179,11 @@ export async function getServerSideProps({ query }) {
   });
   console.log(notes);
 
-  const listsQuery = usernameDoc.collection('lists');
+  const listsQuery = usernameDoc.collection('lists').orderBy('createdAt');
   userLists = (await listsQuery.get()).docs.map((doc) => {
     const data = doc.data();
-    return { ...data, id: doc.id };
+    const date = data.createdAt.toDate();
+    return { ...data, createdAt: date.toString(), id: doc.id };
   });
   console.log(userLists);
 
