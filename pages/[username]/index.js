@@ -1,117 +1,155 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { firestore, timestamp } from "../../lib/firebase";
 import styles from "../../styles/UserPage.module.css";
-import Note from "../../components/Note";
-import { v4 as uuidv4 } from "uuid";
+import List from "../../components/List";
 import { useContext } from "react";
 import { userContext } from "../../lib/context";
+import {
+  AiOutlinePlus,
+  AiOutlineClose,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
+import { BiTrashAlt } from "react-icons/bi";
+import { useRouter } from "next/router";
 
-const userList = ({ username, notes }) => {
-  const [addNote, setAddNote] = useState(true);
-  const [noteContent, setNoteContent] = useState("");
-  //set client side list to include server fetched list
-  const [currentNotes, setCurrentNotes] = useState(notes);
-  const [editAuth, setEditAuth] = useState(null)
+const userPage = ({ username, notes, userLists }) => {
+  const [addList, setAddList] = useState(false);
+  const [lists, setLists] = useState(userLists);
+  const [selectedList, setSelectedList] = useState(
+    userLists[0] === undefined ? null : userLists[0].id
+  );
+  const [listName, setListName] = useState("");
+  const [editAuth, setEditAuth] = useState(null);
   const context = useContext(userContext);
+  const router = useRouter();
 
-  //when DOM updates, ensure current notes are from the correct
-  //user's page
   useEffect(() => {
-    setCurrentNotes(notes);
     //check if the user viewing the page is the owner
     //if so, grant permission to make edits
-    if(context.username === username){
+    if (context.username === username) {
       setEditAuth(true);
     } else {
       setEditAuth(false);
     }
-    //console.log(context.username + '' + username);
-    //console.log(notes);
+    //console.log(userLists[0].id);
   }, [context, username]);
 
-  //state flipping function
-  const inputState = () => {
-    setAddNote(!addNote);
-  };
+  useEffect(() => {
+    setLists(userLists);
+    //console.log("updating dom with new lists");
+    setSelectedList(userLists[0] === undefined ? null : selectedList);
+  }, [userLists, selectedList]);
 
-  //removes note from DOM and database
-  const onRemoveNote = (id) => {
-    //sets the visible state of the app to filter out the removed note
-    setCurrentNotes(currentNotes.filter(item => item.id !== id))
-    //console.log(id);
-
-    //actually removes note from database using note id
-    const userRef = firestore.collection('usernames').doc(username);
-    userRef.collection('posts').doc(id).delete().then(() => {
-      console.log("Document successfully deleted!");
-    })
-  };
-
-  //updates DOM to include new note and adds it to database
-  const onAddNote = (e) => {
-    e.preventDefault();
-    inputState(); //hide input bar
-
-    if (noteContent.length > 0) {
-      const usernameRef = firestore.collection("usernames").doc(username);
-      const postsRef = usernameRef.collection("posts");
-      const id = uuidv4();
-
-      //update client side to include new note
-      setCurrentNotes([...currentNotes, { noteContent: noteContent, id: id, }]);
-
-      //update server side with new note
-      postsRef.doc(id).set({
-        noteContent: noteContent,
-        createdAt: timestamp,
+  const onRemove = id => {
+    const userRef = firestore.collection("usernames").doc(username);
+    const notesQuery = userRef.collection("posts").where("belongsTo", "==", id);
+    
+    notesQuery.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          userRef.collection('posts').doc(doc.id).delete();
       });
+    });
+
+    const index = lists.findIndex(list => list.id === id);
+
+    if(lists[index+1] !== undefined){
+      setSelectedList(lists[index+1].id);
+    } else if(lists[index-1] !== undefined) {
+      setSelectedList(lists[index-1].id);
     }
+
+    setLists(lists.filter(list => list.id !== id));
+
+    userRef.collection('lists').doc(id).delete().then(() => {
+      console.log('list successfully deleted');
+      refreshData();
+    });
   };
 
-  const onChange = (e) => {
-    setNoteContent(e.target.value);
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const userRef = firestore.collection("usernames").doc(username);
+    const listRef = userRef.collection("lists");
+
+    listRef
+      .add({
+        listName: listName,
+      })
+      .then(() => {
+        refreshData();
+      });
+
+    //console.log(lists);
   };
 
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
+  const changeList = (list) => {
+    setSelectedList(list.id);
+    refreshData();
+    //console.log(selectedList);
+  };
+
+  //add logic here to select seperate list collections
   return (
     <div className={styles.list_container}>
-      <div className={styles.list_elements}>
-        <ul>
-          {currentNotes.map((note) => (
-            <div key={note.id} className={styles.list_item}>
-              <Note note={note} editAuth={editAuth} subNotes={null} />
+      <div className={styles.list_names}>
+        <h1 className={styles.user_title}>{username}'s lists</h1>
+        <div className={styles.user_lists}>
+          {lists.map((list) => (
+            <div className={styles.list_button}>
+              <div
+                className={styles.list_title}
+                onClick={() => changeList(list)}
+              >
+                <div className={styles.dot} />
+                &nbsp;{list.listName}
+              </div>
               &nbsp;
-              {editAuth && 
-                <AiOutlineClose
-                  className={styles.delete}
-                  style={{flex: 'none'}}
-                  onClick={() => onRemoveNote(note.id)}
-                />
-              }
+              <div><BiTrashAlt className={styles.list_delete} onClick={() => onRemove(list.id)}/></div>
             </div>
           ))}
-        </ul>
-        {editAuth && (
-          addNote ? (
-            <div className={styles.new_note} onClick={inputState}>
-              <AiOutlinePlus />
-              &nbsp;New Note
-            </div>
-          ) : (
-            <div className={styles.new_note_input}>
-              <AiOutlinePlus onClick={inputState} />
-              &nbsp;
-              <form onSubmit={onAddNote}>
+          {editAuth &&
+            (addList ? (
+              <form onSubmit={onSubmit}>
+                <AiOutlinePlus />
+                &nbsp;
                 <input
-                  className={styles.note_input}
-                  value={noteContent}
-                  onChange={onChange}
+                  className={styles.list_input}
+                  value={listName}
+                  onChange={(e) => setListName(e.target.value)}
+                  autoFocus
                 />
               </form>
-            </div>
-          )
-        )}
+            ) : (
+              <div onClick={() => setAddList(!addList)}>
+                <AiOutlinePlus />
+                &nbsp;New List
+              </div>
+            ))}
+        </div>
       </div>
+      {selectedList ? (
+        <List
+          username={username}
+          notes={notes.filter((note) => note.belongsTo === selectedList)}
+          listId={selectedList}
+          editAuth={editAuth}
+        />
+      ) : (
+        <div className={styles.intro_container}>
+          <h1>To get started, add your first list!</h1>
+          <div onClick={() => setAddList(true)}>
+            <AiOutlineUnorderedList />
+          </div>
+          <h3>Add List</h3>
+        </div>
+      )}
     </div>
   );
 };
@@ -120,6 +158,7 @@ export async function getServerSideProps({ query }) {
   const { username } = query;
 
   let notes = null;
+  let userLists = null;
 
   //get notes for current user's page, ordered by date posted
   const usernameDoc = firestore.collection('usernames').doc(username);
@@ -128,13 +167,20 @@ export async function getServerSideProps({ query }) {
     const data = doc.data();
     //sanitize firebase and javascript timestamp formats, doesn't play nice with Next
     const date = data.createdAt.toDate();
-    return { ...data, createdAt: date.toString(), id: doc.id  };
+    return { ...data, createdAt: date.toString(), id: doc.id };
   });
-  //console.log(notes);
+  console.log(notes);
+
+  const listsQuery = usernameDoc.collection('lists');
+  userLists = (await listsQuery.get()).docs.map((doc) => {
+    const data = doc.data();
+    return { ...data, id: doc.id };
+  });
+  console.log(userLists);
 
   return {
-    props: { username, notes },
+    props: { username, notes, userLists },
   };
 }
 
-export default userList;
+export default userPage;
