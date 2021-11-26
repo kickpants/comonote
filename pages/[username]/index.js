@@ -3,7 +3,7 @@ import { firestore, timestamp } from "../../lib/firebase";
 import styles from "../../styles/UserPage.module.css";
 import List from "../../components/List";
 import { useContext } from "react";
-import { userContext } from "../../lib/context";
+import { userContext, themeContext } from "../../lib/context";
 import {
   AiOutlinePlus,
   AiOutlineClose,
@@ -21,6 +21,7 @@ const userPage = ({ username, notes, userLists }) => {
   const [listName, setListName] = useState("");
   const [editAuth, setEditAuth] = useState(null);
   const context = useContext(userContext);
+  const [theme, setTheme] = useContext(themeContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -40,33 +41,41 @@ const userPage = ({ username, notes, userLists }) => {
     setSelectedList(userLists[0] === undefined ? null : selectedList);
   }, [userLists, selectedList]);
 
-  const onRemove = id => {
+  const onRemove = (id) => {
     const userRef = firestore.collection("usernames").doc(username);
     const notesQuery = userRef.collection("posts").where("belongsTo", "==", id);
-    
+
     notesQuery.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data());
-          userRef.collection('posts').doc(doc.id).delete();
+        console.log(doc.id, " => ", doc.data());
+        userRef.collection("posts").doc(doc.id).delete();
       });
     });
 
     //finds index of list to be deleted (as a reference)
-    const index = lists.findIndex(list => list.id === id);
-    //checks to left and right of to-be-deleted list to find suitable replacement
-    if(lists[index+1] !== undefined){
-      setSelectedList(lists[index+1].id);
-    } else if(lists[index-1] !== undefined) {
-      setSelectedList(lists[index-1].id);
+    const index = lists.findIndex((list) => list.id === id);
+
+    //checks to see if the list being deleted is currently selected
+    if (selectedList == lists[index].id) {
+      //checks to left and right of to-be-deleted list to find suitable replacement
+      if (lists[index + 1] !== undefined) {
+        setSelectedList(lists[index + 1].id);
+      } else if (lists[index - 1] !== undefined) {
+        setSelectedList(lists[index - 1].id);
+      }
     }
     //if none is found, useEffect hook will notice there are no remaining lists on DOM refresh
 
-    setLists(lists.filter(list => list.id !== id));
+    setLists(lists.filter((list) => list.id !== id));
 
-    userRef.collection('lists').doc(id).delete().then(() => {
-      console.log('list successfully deleted');
-      refreshData();
-    });
+    userRef
+      .collection("lists")
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log("list successfully deleted");
+        refreshData();
+      });
   };
 
   const onSubmit = (e) => {
@@ -103,61 +112,76 @@ const userPage = ({ username, notes, userLists }) => {
 
   //add logic here to select seperate list collections
   return (
-    <div className={styles.list_container}>
-      <div className={styles.list_names}>
-        <h1 className={styles.user_title}>{username}'s lists</h1>
-        <div className={styles.user_lists}>
-          {lists.map((list) => (
-            <div className={styles.list_button}>
-              <div
-                className={styles.list_title}
-                style={list.id === selectedList ? { backgroundColor: "hsl(0, 0%, 95%)"} : null}
-                onClick={() => changeList(list)}
-              >
-                <div className={styles.dot} />
-                &nbsp;{list.listName}
-              </div>
-              &nbsp;
-              <div>{editAuth && <BiTrashAlt className={styles.list_delete} onClick={() => onRemove(list.id)}/>}</div>
-            </div>
-          ))}
-          <hr className={styles.list_input_spacer} />
-          {editAuth &&
-            (addList ? (
-              <form onSubmit={onSubmit}>
-                <AiOutlinePlus onClick={() => setAddList(!addList)}/>
+    <div className={theme}>
+      <div className={styles.list_container}>
+        <div className={styles.list_names}>
+          <h1 className={styles.user_title}>{username}'s lists</h1>
+          <div className={styles.user_lists}>
+            {lists.map((list) => (
+              <div className={styles.list_button}>
+                <div
+                  className={
+                    list.id === selectedList
+                      ? styles.list_title_active
+                      : styles.list_title
+                  }
+                  onClick={() => changeList(list)}
+                >
+                  <div className={styles.dot} />
+                  &nbsp;{list.listName}
+                </div>
                 &nbsp;
-                <input
-                  className={styles.list_input}
-                  value={listName}
-                  onChange={(e) => setListName(e.target.value)}
-                  autoFocus
-                />
-              </form>
-            ) : (
-              <div onClick={() => setAddList(!addList)} className={styles.list_newlistbutton}>
-                <AiOutlinePlus />
-                &nbsp;New List
+                <div>
+                  {editAuth && (
+                    <BiTrashAlt
+                      className={styles.list_delete}
+                      onClick={() => onRemove(list.id)}
+                    />
+                  )}
+                </div>
               </div>
             ))}
-        </div>
-      </div>
-      {selectedList ? (
-        <List
-          username={username}
-          notes={notes.filter((note) => note.belongsTo === selectedList)}
-          listId={selectedList}
-          editAuth={editAuth}
-        />
-      ) : (
-        <div className={styles.intro_container}>
-          <h1>To get started, add your first list!</h1>
-          <div onClick={() => setAddList(true)}>
-            <AiOutlineUnorderedList />
+            <hr className={styles.list_input_spacer} />
+            {editAuth &&
+              (addList ? (
+                <form onSubmit={onSubmit}>
+                  <AiOutlinePlus onClick={() => setAddList(!addList)} />
+                  &nbsp;
+                  <input
+                    className={styles.list_input}
+                    value={listName}
+                    onChange={(e) => setListName(e.target.value)}
+                    autoFocus
+                  />
+                </form>
+              ) : (
+                <div
+                  onClick={() => setAddList(!addList)}
+                  className={styles.list_newlistbutton}
+                >
+                  <AiOutlinePlus />
+                  &nbsp;New List
+                </div>
+              ))}
           </div>
-          <h3>Add List</h3>
         </div>
-      )}
+        {selectedList ? (
+          <List
+            username={username}
+            notes={notes.filter((note) => note.belongsTo === selectedList)}
+            listId={selectedList}
+            editAuth={editAuth}
+          />
+        ) : (
+          <div className={styles.intro_container}>
+            <h1>To get started, add your first list!</h1>
+            <div onClick={() => setAddList(true)}>
+              <AiOutlineUnorderedList />
+            </div>
+            <h3>Add List</h3>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

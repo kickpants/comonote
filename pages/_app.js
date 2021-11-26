@@ -1,6 +1,7 @@
 import '../styles/globals.css';
+import '../styles/app.css';
 import Navbar from '../components/Navbar';
-import { userContext } from '../lib/context';
+import { userContext, ThemeProvider } from '../lib/context';
 import { useUserAuth } from '../lib/hooks';
 
 function MyApp({ Component, pageProps }) {
@@ -11,8 +12,10 @@ function MyApp({ Component, pageProps }) {
   return (
     //context api provides entire app with user data
     <userContext.Provider value={userData}>
-      <Navbar />
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Navbar />
+        <Component {...pageProps} />
+      </ThemeProvider>
     </userContext.Provider>
   );
 }

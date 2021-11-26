@@ -1,0 +1,48 @@
+:root {
+  --lightfground: hsl(0, 0%, 100%);
+  --lightbground: hsl(0, 0%, 98%);
+  --lightborder: hsl(0, 0%, 90%);
+  --lightbutton: hsl(0, 0%, 95%);
+
+  --darkfground: hsl(0 ,0%, 11%);
+  --darkbground: hsl(0, 0%, 7%);
+  --darkborder: hsl(0, 0%, 18%);
+  --darkbutton: hsl(0, 0%, 15%);
+
+  --light-lighttext: hsl(0, 0%, 70%);
+  --light-medtext: hsl(0, 0%, 50%);
+  --light-darktext: hsl(0, 0%, 40%);
+
+  --dark-lighttext: hsl(0, 0%, 95%);
+  --dark-medtext: hsl(0, 0%, 90%);
+  --dark-darktext: hsl(0, 0%, 70%);
+
+  --lightlogo: url('../public/monote-smile-light.png');
+  --darklogo: url('../public/monote-smile-dark.png');
+}
+
+.light {
+  --fground: var(--lightfground);
+  --bground: var(--lightbground);
+  --border: var(--lightborder);
+  --button: var(--lightbutton);
+
+  --lighttext: var(--light-lighttext);
+  --medtext: var(--light-medtext);
+  --darktext: var(--light-darktext);
+  
+  --logo: var(--lightlogo);
+}
+
+.dark {
+  --fground: var(--darkfground);
+  --bground: var(--darkbground);
+  --border: var(--darkborder);
+  --button: var(--darkbutton);
+
+  --lighttext: var(--dark-lighttext);
+  --medtext: var(--dark-medtext);
+  --darktext: var(--dark-darktext);
+
+  --logo: var(--darklogo);
+}

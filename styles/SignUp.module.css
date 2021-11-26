@@ -1,6 +1,6 @@
 .container {
   background-size: cover;
-  background-color: hsl(0, 0%, 95%);
+  background-color: var(--bground);
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
   font-size: clamp(22pt, 2vw, 28pt);
   padding: 5px 30px 0px 30px;
   text-align: center;
-  color: hsl(0, 0%, 20%);
+  color: var(--darktext);
 }
 
 .title2 {
@@ -22,7 +22,7 @@
   margin: 0;
   font-size: clamp(13pt, 2vw, 15pt);
   text-align: center;
-  color: hsl(0, 0%, 20%);
+  color: var(--medtext);
 }
 
 .form {
@@ -31,10 +31,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: var(--fground);
   border-radius: 18px;
   padding: 12px;
-  border: 1px solid hsl(0, 0%, 85%);
+  border: 1px solid var(--border);
   box-shadow: 1px 2px 2px 1px hsl(0, 0%, 85%);
   font-size: 22px;
   width: 450px;
@@ -44,7 +44,7 @@
   font-weight: 500;
   font-size: 13px;
   margin-left: 2%;
-  color:hsl(0, 0%, 50%);
+  color:var(--medtext);
 }
 
 .inputbox {

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useContext } from "react";
-import { userContext } from "../lib/context";
+import { userContext, themeContext } from "../lib/context";
 import { firestore } from "../lib/firebase";
 import debounce from "lodash.debounce";
 import styles from "../styles/SignUp.module.css";
@@ -12,6 +12,7 @@ const SignUp = (props) => {
   const [displayName, setDisplayName] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isloading, setIsLoading] = useState(false);
+  const [theme, setTheme] = useContext(themeContext);
   const validStyle = {};
   const router = useRouter();
 
@@ -76,51 +77,53 @@ const SignUp = (props) => {
   };
 
   return (
-    <div className={styles.container}>
-      <form onSubmit={onSubmit} className={styles.form}>
-        <h1 className={styles.title}>What should we call you?</h1>
-        <h3 className={styles.title2}>Choose a name</h3>
-        <div className={styles.inputbox}>
-          <span className={styles.input_title}>Email:</span>
-          <br />
-          <input
-            className={styles.signupinput}
-            text="text"
-            name="email"
-            placeholder={user.email}
-            disabled={true}
-          />
-        </div>
-        <div className={styles.inputbox}>
-          <span className={styles.input_title}>Username:</span>
-          <br />
-          <input
-            className={styles.signupinput}
-            text="text"
-            name="username"
-            value={displayName}
-            onChange={onChange}
-          />
-        </div>
-        <div className={validStyle, styles.name_checker}>
-          {displayName ? (
-            isloading == false ? (
-              isValid ? (
-                <span style={{color: "hsl(108, 65%, 57%)"}}>{displayName} is available</span>
+    <div className={theme}>
+      <div className={styles.container}>
+        <form onSubmit={onSubmit} className={styles.form}>
+          <h1 className={styles.title}>What should we call you?</h1>
+          <h3 className={styles.title2}>Choose a name</h3>
+          <div className={styles.inputbox}>
+            <span className={styles.input_title}>Email:</span>
+            <br />
+            <input
+              className={styles.signupinput}
+              text="text"
+              name="email"
+              placeholder={user.email}
+              disabled={true}
+            />
+          </div>
+          <div className={styles.inputbox}>
+            <span className={styles.input_title}>Username:</span>
+            <br />
+            <input
+              className={styles.signupinput}
+              text="text"
+              name="username"
+              value={displayName}
+              onChange={onChange}
+            />
+          </div>
+          <div className={validStyle, styles.name_checker}>
+            {displayName ? (
+              isloading == false ? (
+                isValid ? (
+                  <span style={{color: "hsl(108, 65%, 57%)"}}>{displayName} is available</span>
+                ) : (
+                  <span style={{color: "hsl(0, 65%, 57%)"}}>{displayName} is not available</span>
+                )
               ) : (
-                <span style={{color: "hsl(0, 65%, 57%)"}}>{displayName} is not available</span>
+                <Loader />
               )
             ) : (
-              <Loader />
-            )
-          ) : (
-            ""
-          )}
-        </div>
-        <button type="submit" className={styles.submit_button} disabled={!isValid}>
-          Let's go
-        </button>
-      </form>
+              ""
+            )}
+          </div>
+          <button type="submit" className={styles.submit_button} disabled={!isValid}>
+            Let's go
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

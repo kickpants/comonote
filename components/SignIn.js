@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { firestore } from "../lib/firebase";
 import { auth, googleAuthProvider } from "../lib/firebase";
-import { FcGoogle } from "react-icons/fc";
 import styles from "../styles/Navbar.module.css";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const SignInButton = () => {
+const SignInButton = props => {
   const router = useRouter();
 
   const googleSignIn = async () => {
@@ -25,8 +24,7 @@ const SignInButton = () => {
 
   return (
     <button className={styles.sign_in} onClick={googleSignIn}>
-      <FcGoogle />
-      &nbsp;Sign In
+      {props.children}
     </button>
   );
 };

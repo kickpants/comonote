@@ -3,17 +3,24 @@
     z-index: 1;
     padding-left: 1.5vw;
     padding-right: 1.5vw;
-    border-bottom: 1px solid hsl(0, 0%, 90%);
+    border-bottom: 1px solid var(--border);
+    background-color: var(--fground);
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 50px;
 }
 
 .title {
+    align-self: center;
     grid-column-start: 2;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 30px;
+}
+
+.logo {
+    height: 30px;
 }
 
 .signupbutton {
@@ -31,10 +38,10 @@
 }
 
 .sign_in:hover {
-    background-color: hsl(0, 0%, 95%);
-    color: hsl(0, 0%, 10%)
+    background-color: var(--bground);
+    color: var(--darktext)
 }
 
 .sign_in:active {
-    background-color: hsl(0, 0%, 50%);
+    background-color: var(--button);
 }

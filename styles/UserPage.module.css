@@ -1,12 +1,12 @@
 .list_names {
-  background-color: hsl(0, 0%, 100%);
-  border-right: 1px solid hsl(0, 0%, 90%);
+  background-color: var(--fground);
+  border-right: 1px solid var(--border);
 }
 
 .user_title {
   font-size: 17pt;
   font-weight: 300;
-  color: hsl(0, 0%, 70%);
+  color: var(--lighttext);
   text-align: center;
   padding-top: 3vh;
   padding-bottom: 10px;
@@ -23,7 +23,7 @@
 
 .list_container {
   background-size: cover;
-  background-color: hsl(0, 0%, 98%);
+  background-color: var(--bground);
   position: fixed;
   display: grid;
   grid-template-columns: 400px 1fr;
@@ -54,7 +54,22 @@
   padding: 3px 8px 3px 8px;
   margin-bottom: 5px;
   border-radius: 20px;
-  color: hsl(0, 0%, 40%);
+  color: var(--medtext);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.list_title_active {
+  display: flex;
+  flex-direction: row;
+  width: 250px;
+  text-align: left;
+  font-weight: 400;
+  padding: 3px 8px 3px 8px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  background-color: var(--button);
+  color: var(--medtext);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -83,28 +98,28 @@
   opacity: 0;
   width: 17px;
   height: 17px;
+  color: var(--darktext);
 }
 
 .list_title:hover {
-  color: hsl(0, 0%, 30%);
-  background-color: hsl(0, 0%, 95%);
+  color: var(--darktext);
+  background-color: var(--button);
 }
 
 .list_title:active {
-  color: hsl(0, 0%, 30%);
-  background-color: hsl(0, 0%, 90%);
+  background-color: var(--border);
   transition-duration: 0ms;
 }
 
 .list_input_spacer {
   width: 200px;
-  border: 1px solid hsl(0, 0%, 90%);
+  border: 1px solid var(--border);
 }
 
 .list_input {
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid hsl(0, 0%, 80%);
+  border-bottom: 1px solid var(--border);
 }
 
 .list_newlistbutton {
@@ -113,9 +128,9 @@
   flex-direction: row;
   align-content: center;
   padding: 3px 12px 3px 8px;
-  color: hsl(0, 0%, 50%);
+  color: var(--medtext);
   border-radius: 20px;
-  border: 1px solid hsl(0, 0%, 70%);
+  border: 1px solid var(--medtext);
   transition: all 0.2s ease-in-out;
 }
 
@@ -137,7 +152,7 @@
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-  color: hsl(0, 0%, 40%);
+  color: var(--darktext);
   font-size: 16pt;
   margin-bottom: 5px;
   transition: all 0.5s ease-in-out;
@@ -152,7 +167,7 @@
   margin-right: .2em;
   margin-left: .2em;
   border-radius: 50%;
-  border: 2px solid hsl(0, 0%, 40%);
+  border: 2px solid var(--darktext);
 }
 
 .new_note {
@@ -161,14 +176,14 @@
   justify-content: flex-start;
   align-items: center;
   font-size: 16pt;
-  color: hsl(0, 0%, 70%);
+  color: var(--lighttext);
   cursor: pointer;
   transition: all ease-in-out 200ms;
   margin-top: 2px;
 }
 
 .new_note:hover {
-  color: hsl(0, 0%, 40%);
+  color: var(--darktext);
 }
 
 .new_note_input {
@@ -177,18 +192,18 @@
   justify-content: flex-start;
   align-items: center;
   font-size: 16pt;
-  color: hsl(0, 0%, 40%);
+  color: var(--darktext);
   cursor: pointer;
   margin-top: 2px;
 }
 
 .note_input {
-  background-color: hsl(0, 0%, 98%);
-  color: hsl(0, 0%, 40%);
+  background-color: inherit;
+  color: var(--darktext);
   font-weight: 300;
   font-size: 16pt;
   border: none;
-  border-bottom: 1px solid hsl(0, 0%, 90%);
+  border-bottom: 1px solid var(--border);
   width: clamp(300px, 30vw, 675px); 
 }
 
@@ -208,9 +223,8 @@
 }
 
 .delete {
-  color: hsl(0, 0%, 40%);
-  align-self: flex-start;
-  margin-top: 6px;
+  color: var(--darktext);
+  align-self: center;
   opacity: 0;
   margin-bottom: 2px;
   height: 20px;
@@ -246,7 +260,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  border-right: 1px solid hsl(0, 0%, 90%);
+  border-right: 1px solid var(--border);
   margin-top: 6px;
   padding-left: 2vw;
   padding-right: 2vw;
@@ -264,28 +278,28 @@
 }
 
 .subnote {
-  color: hsl(0, 0%, 50%);
+  color: var(--medtext);
 }
 
 .new_subnote {
-  color: hsl(0, 0%, 70%);
+  color: var(--lighttext);
 }
 
 .new_subnote:hover {
-  color: hsl(0, 0%, 50%);
+  color: var(--medtext);
 }
 
 .input_subnote{
   font-size: 13pt;
   font-family: 'Montserrat', sans-serif;;
   display: block;
-  background-color: hsl(0, 0%, 98%);
-  color: hsl(0, 0%, 50%);
+  background-color: inherit;
+  color: var(--medtext);
   border: none;
   width: clamp(250px, 27vw, 600px);
   outline: none;
   overflow: hidden;
-  border-bottom: 1px solid hsl(0, 0%, 90%);
+  border-bottom: 1px solid var(--border);
 }
 
 .intro_container {
@@ -298,7 +312,7 @@
 .intro_container h1 {
   font-size: 18pt;
   font-weight: 400;
-  color: hsl(0, 0%, 40%);
+  color: var(--darktext);
 }
 
 .intro_container div {
@@ -306,7 +320,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background-color: hsl(0, 0%, 90%);
+  background-color: var(--border);
   height: 50px;
   width: 50px;
   cursor: pointer;
@@ -325,12 +339,12 @@
 .intro_container svg {
   height: 30px;
   width: 30px;
-  color: hsl(0, 0%, 40%);
+  color: var(--darktext);
 }
 
 .intro_container h3 {
   font-size: 13pt;
   font-weight: 400;
-  color: hsl(0, 0%, 70%);
+  color: var(--lighttext);
   margin-top: 5px;
 }

@@ -1,9 +1,10 @@
 .container {
   background-size: cover;
-  background-color: #f5f9fc;
+  background-color: var(--bground);
+  color: var(--darktext);  
   position: fixed;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -11,5 +12,67 @@
 }
 
 .container .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: clamp(200px, 30vw, 500px);
+  align-self: center;
+  justify-self: center;
+  background-image: var(--logo);
+  background-size: cover;
+  background-repeat: no-repeat;
+  resize: both;
+}
 
+.logo {
+  transform: translateY(5%);
+  animation: float 6s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+.logoimg {
+  
+}
+
+.container .monote {
+  width: clamp(200px, 30vw, 500px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.monote h1 {
+  font-size: 4rem;
+}
+
+.monote span {
+  text-align: center;
+  font-size: 14pt;
+  color: var(--medtext);
+}
+
+.monote button {
+  font-size: 15pt;
+  font-weight: 400;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  background: inherit;
+}
+
+.monote button:hover {
+  background-color: hsl(207, 100%, 60%);
+  color: white;
+  cursor: pointer;
+}
+@keyframes float {
+  0% {
+    transform: translateY(5%);
+  }
+  50% {
+    transform: translateY(-5%);
+  }
+  100% {
+    transform: translateY(5%);
+  }
 }

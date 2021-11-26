@@ -18,6 +18,7 @@
     "react-firebase-hooks": "^4.0.0",
     "react-icons": "^4.3.1",
     "react-textarea-autosize": "^8.3.3",
+    "sass": "^1.43.5",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
