@@ -26,7 +26,7 @@
   top: 47px;
   right: 25px;
   padding: 15px;
-  background-color: var(--bground);
+  background-color: var(--fground);
   border-radius: 5px;
   border: 1px solid var(--border);
   color: var(--darktext);

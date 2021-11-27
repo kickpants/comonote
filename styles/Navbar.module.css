@@ -28,6 +28,7 @@
     justify-content: flex-end;
     align-items: center;
     margin-right: 0.8vw;
+
 }
 
 .sign_in {
@@ -35,6 +36,10 @@
     justify-content: center;
     align-items: center;
     transition: all ease-in-out 200ms;
+    background-color: var(--fground);
+    border: 1px solid var(--border);
+    color: var(--darktext);
+    cursor: pointer;
 }
 
 .sign_in:hover {

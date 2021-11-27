@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { firestore } from "../lib/firebase";
 import { auth, googleAuthProvider } from "../lib/firebase";
 import styles from "../styles/Navbar.module.css";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { themeContext } from "../lib/context";
 
 const SignInButton = props => {
   const router = useRouter();
+  const [theme, setTheme] = useContext(themeContext);
 
   const googleSignIn = async () => {
     await auth.signInWithPopup(googleAuthProvider).then(result => {
@@ -23,9 +25,11 @@ const SignInButton = props => {
   };
 
   return (
-    <button className={styles.sign_in} onClick={googleSignIn}>
-      {props.children}
-    </button>
+    <div className={theme}>
+      <button className={styles.sign_in} onClick={googleSignIn}>
+        {props.children}
+      </button>
+    </div>
   );
 };
 

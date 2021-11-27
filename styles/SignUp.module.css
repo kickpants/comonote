@@ -35,7 +35,7 @@
   border-radius: 18px;
   padding: 12px;
   border: 1px solid var(--border);
-  box-shadow: 1px 2px 2px 1px hsl(0, 0%, 85%);
+  box-shadow: 1px 2px 2px 1px var(--bground);
   font-size: 22px;
   width: 450px;
 }
@@ -55,6 +55,7 @@
   width: 350px;
   padding: 15px 12px 15px 12px;
   transition: border ease-in-out 300ms;
+  color: var(--darktext);
 }
 
 .signupinput:focus {
@@ -74,11 +75,13 @@
   padding: 10px 15px 10px 15px;
   font-size: 13pt;
   transition: all ease-in-out 200ms;
+  cursor: pointer;
 }
 
 .submit_button:hover {
   color:hsl(0, 0%, 95%);
   background-color: hsl(207, 100%, 60%);
+  border: 1px solid hsl(207, 100%, 60%);
 }
 
 .submit_button:active {

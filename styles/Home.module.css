@@ -56,7 +56,8 @@
   font-size: 15pt;
   font-weight: 400;
   transition: all 0.3s ease-in-out;
-  border: none;
+  border: 1px solid var(--border);
+  color: var(--darktext);
   background: inherit;
 }
 

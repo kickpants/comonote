@@ -145,7 +145,7 @@ const userPage = ({ username, notes, userLists }) => {
             {editAuth &&
               (addList ? (
                 <form onSubmit={onSubmit}>
-                  <AiOutlinePlus onClick={() => setAddList(!addList)} />
+                  <AiOutlinePlus onClick={() => setAddList(!addList) } className={styles.list_inputlistbutton} />
                   &nbsp;
                   <input
                     className={styles.list_input}
@@ -198,7 +198,7 @@ export async function getServerSideProps({ query }) {
   notes = (await postsQuery.get()).docs.map((doc) => {
     const data = doc.data();
     //sanitize firebase and javascript timestamp formats, doesn't play nice with Next
-    const date = data.createdAt.toDate();
+    const date = data.createdAt.toMillis();
     return { ...data, createdAt: date.toString(), id: doc.id };
   });
   console.log(notes);
@@ -206,7 +206,7 @@ export async function getServerSideProps({ query }) {
   const listsQuery = usernameDoc.collection('lists').orderBy('createdAt');
   userLists = (await listsQuery.get()).docs.map((doc) => {
     const data = doc.data();
-    const date = data.createdAt.toDate();
+    const date = data.createdAt.toMillis();
     return { ...data, createdAt: date.toString(), id: doc.id };
   });
   console.log(userLists);

@@ -119,7 +119,16 @@
 .list_input {
   border: none;
   border-radius: 0;
+  color: var(--darktext);
   border-bottom: 1px solid var(--border);
+}
+
+.list_inputlistbutton {
+  color: var(--darktext);
+  height: 17px;
+  width: 17px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .list_newlistbutton {
@@ -144,6 +153,7 @@
   align-self: center;
   height: 17px;
   width: 17px;
+  color: var(--darktext);
 }
 
 .note {
