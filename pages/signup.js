@@ -89,7 +89,7 @@ const SignUp = (props) => {
               className={styles.signupinput}
               text="text"
               name="email"
-              placeholder={user.email}
+              placeholder={user && user.email}
               disabled={true}
             />
           </div>
@@ -120,7 +120,7 @@ const SignUp = (props) => {
             )}
           </div>
           <button type="submit" className={styles.submit_button} disabled={!isValid}>
-            Let's go
+            Lets&apos;s go
           </button>
         </form>
       </div>

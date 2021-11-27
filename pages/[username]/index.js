@@ -12,7 +12,7 @@ import {
 import { BiTrashAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
 
-const userPage = ({ username, notes, userLists }) => {
+const UserPage = ({ username, notes, userLists }) => {
   const [addList, setAddList] = useState(false);
   const [lists, setLists] = useState(userLists);
   const [selectedList, setSelectedList] = useState(
@@ -115,10 +115,10 @@ const userPage = ({ username, notes, userLists }) => {
     <div className={theme}>
       <div className={styles.list_container}>
         <div className={styles.list_names}>
-          <h1 className={styles.user_title}>{username}'s lists</h1>
+          <h1 className={styles.user_title}>{username}&apos;s lists</h1>
           <div className={styles.user_lists}>
             {lists.map((list) => (
-              <div className={styles.list_button}>
+              <div key={list.id} className={styles.list_button}>
                 <div
                   className={
                     list.id === selectedList
@@ -216,4 +216,4 @@ export async function getServerSideProps({ query }) {
   };
 }
 
-export default userPage;
+export default UserPage;
