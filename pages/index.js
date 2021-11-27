@@ -22,7 +22,7 @@ export default function Home() {
           <br/>
           <span>make your first note</span>
           <br/>
-          <SignInButton>Here</SignInButton>
+          <div className={styles.here}><SignInButton className={styles.button}>Here</SignInButton></div>
         </div>
       </div>
     </div>

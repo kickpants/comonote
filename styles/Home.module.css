@@ -44,6 +44,11 @@
 
 .monote h1 {
   font-size: 4rem;
+  text-align: center;
+}
+
+.monote h2 {
+  text-align: center;
 }
 
 .monote span {
@@ -52,20 +57,24 @@
   color: var(--medtext);
 }
 
-.monote button {
-  font-size: 15pt;
-  font-weight: 400;
+.monote .button {
   transition: all 0.3s ease-in-out;
-  border: 1px solid var(--border);
   color: var(--darktext);
   background: inherit;
+  width: 100px;
+}
+
+.here {
+  align-self: center;
 }
 
 .monote button:hover {
   background-color: hsl(207, 100%, 60%);
+  border: 1px solid hsl(207, 100%, 60%);
   color: white;
   cursor: pointer;
 }
+
 @keyframes float {
   0% {
     transform: translateY(5%);

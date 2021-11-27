@@ -26,7 +26,7 @@ const SignInButton = props => {
 
   return (
     <div className={theme}>
-      <button className={styles.sign_in} onClick={googleSignIn}>
+      <button className={props.className} onClick={googleSignIn}>
         {props.children}
       </button>
     </div>

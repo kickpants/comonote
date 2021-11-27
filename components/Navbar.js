@@ -27,7 +27,7 @@ const Navbar = () => {
           {username ? (
             <ProfileButton />
           ) : (
-            <SignInButton>
+            <SignInButton className={styles.sign_in}>
               <FcGoogle />
               &nbsp;Sign In
             </SignInButton>
