@@ -1,6 +1,6 @@
 # monote.app
 
-Monote is a web app developed with ReactJS, NextJS and Firebase to store and retrieve lists of notes depending on the logged in user.
+Monote is a web app developed with React, Next.js and Firebase to store and retrieve lists of notes depending on the logged in user.
 I made this app to better keep track of what I'm working on and what my friends are working on without having to use over-complicated work-note-collaboration software. I wanted to create something easily understandable and comprehensible to anyone who wants to keep track of their lists and view others' online.
 
 The purpose of developing this app is to practice and demonstrate my abilities to create full stack web applications with server-side rendering and an object oriented database.
