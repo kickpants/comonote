@@ -13,6 +13,7 @@ import { BiTrashAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
 
 const UserPage = ({ username, notes, userLists }) => {
+  const [drawerOpened, setDrawerOpened] = useState(false);
   const [addList, setAddList] = useState(false);
   const [lists, setLists] = useState(userLists);
   const [selectedList, setSelectedList] = useState(
@@ -24,7 +25,7 @@ const UserPage = ({ username, notes, userLists }) => {
   const [theme, setTheme] = useContext(themeContext);
   const router = useRouter();
 
-  useEffect(() => {
+  useEffect( async () => {
     //check if the user viewing the page is the owner
     //if so, grant permission to make edits
     if (context.username === username) {
@@ -32,7 +33,9 @@ const UserPage = ({ username, notes, userLists }) => {
     } else {
       setEditAuth(false);
     }
-    //console.log(userLists[0].id);
+    setLists(userLists);
+    setSelectedList(userLists[0].id);
+    console.log("my selected list is now " + userLists[0].id);
   }, [context, username]);
 
   useEffect(() => {
@@ -100,6 +103,10 @@ const UserPage = ({ username, notes, userLists }) => {
     setAddList(!addList);
   };
 
+  const openDrawer = () => {
+
+  }
+
   const refreshData = () => {
     router.replace(router.asPath);
   };
@@ -113,56 +120,60 @@ const UserPage = ({ username, notes, userLists }) => {
   //add logic here to select seperate list collections
   return (
     <div className={theme}>
+      <div className={styles.open_drawer} onClick={() => setDrawerOpened(!drawerOpened)}><AiOutlineUnorderedList /></div>
       <div className={styles.list_container}>
-        <div className={styles.list_names}>
+        <div className={styles.list_names} style={(window.innerWidth < 900) && drawerOpened ? {width: "400px" } : null}>
+          <div className={styles.list_name_container}> 
+          {/* change title code later to adjust for user's names */}
           <h1 className={styles.user_title}>{username}&apos;s lists</h1>
           <div className={styles.user_lists}>
             {lists.map((list) => (
               <div key={list.id} className={styles.list_button}>
                 <div
-                  className={
-                    list.id === selectedList
-                      ? styles.list_title_active
-                      : styles.list_title
-                  }
-                  onClick={() => changeList(list)}
-                >
-                  <div className={styles.dot} />
-                  &nbsp;{list.listName}
-                </div>
-                &nbsp;
-                <div>
-                  {editAuth && (
-                    <BiTrashAlt
-                      className={styles.list_delete}
-                      onClick={() => onRemove(list.id)}
-                    />
-                  )}
-                </div>
-              </div>
-            ))}
-            <hr className={styles.list_input_spacer} />
-            {editAuth &&
-              (addList ? (
-                <form onSubmit={onSubmit}>
-                  <AiOutlinePlus onClick={() => setAddList(!addList) } className={styles.list_inputlistbutton} />
+                    className={
+                      list.id === selectedList
+                        ? styles.list_title_active
+                        : styles.list_title
+                    }
+                    onClick={() => changeList(list)}
+                  >
+                    <div className={styles.dot} />
+                    &nbsp;{list.listName}
+                  </div>
                   &nbsp;
-                  <input
-                    className={styles.list_input}
-                    value={listName}
-                    onChange={(e) => setListName(e.target.value)}
-                    autoFocus
-                  />
-                </form>
-              ) : (
-                <div
-                  onClick={() => setAddList(!addList)}
-                  className={styles.list_newlistbutton}
-                >
-                  <AiOutlinePlus />
-                  &nbsp;New List
+                  <div>
+                    {editAuth && (
+                      <BiTrashAlt
+                        className={styles.list_delete}
+                        onClick={() => onRemove(list.id)}
+                      />
+                    )}
+                  </div>
                 </div>
               ))}
+              <hr className={styles.list_input_spacer} />
+              {editAuth &&
+                (addList ? (
+                  <form onSubmit={onSubmit}>
+                    <AiOutlinePlus onClick={() => setAddList(!addList) } className={styles.list_inputlistbutton} />
+                    &nbsp;
+                    <input
+                      className={styles.list_input}
+                      value={listName}
+                      onChange={(e) => setListName(e.target.value)}
+                      autoFocus
+                    />
+                  </form>
+                ) : (
+                  <div
+                    onClick={() => setAddList(!addList)}
+                    className={styles.list_newlistbutton}
+                  >
+                    <AiOutlinePlus />
+                    &nbsp;New List
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
         {selectedList ? (

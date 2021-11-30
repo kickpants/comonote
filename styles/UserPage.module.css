@@ -1,6 +1,54 @@
 .list_names {
+  position: relative;
   background-color: var(--fground);
+  background-size: cover;
   border-right: 1px solid var(--border);
+  width: 400px;
+  height: 100%;
+  overflow-x: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
+.list_name_container {
+  position: absolute;
+  left: 65px;
+}
+
+.open_drawer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  position: absolute;
+  z-index: 5;
+  background-color: var(--fground);
+  bottom: 10px;
+  right: 10px;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.open_drawer:active {
+  background-color: var(--bground);
+}
+
+@keyframes slidein {
+  0% {
+    transform: translateX(100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.open_drawer svg {
+  color: var(--darktext);
+  width: 25px;
+  height: 25px;
 }
 
 .user_title {
@@ -25,13 +73,28 @@
   background-size: cover;
   background-color: var(--bground);
   position: fixed;
-  display: grid;
-  grid-template-columns: 400px 1fr;
+  display: flex;
+  /*grid-template-columns: 400px 1fr;*/
   height: 100%;
   width: 100%;
+  transition: all 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 900px) {
+  .list_names {
+    position: absolute;
+    width: 0px;
+    z-index: 2;
+  }
+  .open_drawer {
+    visibility: visible;
+    animation: slidein 0.5s ease-in-out;
+  }
+
 }
 
 .list_elements {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

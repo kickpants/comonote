@@ -20,10 +20,10 @@ const List = ({ username, notes, editAuth, listId }) => {
   useEffect(() => {
     setCurrentNotes(notes);
     setCurrentList(listId);
-    console.log("my list id is" + listId);
+    console.log("my list id is " + listId);
     //console.log(context.username + '' + username);
     //console.log(notes);
-  }, [context, username, notes]);
+  }, [context, username, notes, listId]);
 
   //state flipping function
   const inputState = () => {
