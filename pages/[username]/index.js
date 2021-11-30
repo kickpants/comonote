@@ -35,13 +35,19 @@ const UserPage = ({ username, notes, userLists }) => {
     }
     setLists(userLists);
     setSelectedList(userLists[0].id);
-    console.log("my selected list is now " + userLists[0].id);
+    //console.log("my selected list is now " + userLists[0].id);
   }, [context, username]);
 
   useEffect(() => {
+    //thank god this works now lol
+    //fixed bug here: first list not loading when clicking "My Lists"
+    console.log("I am validating list " + selectedList);
+    let validateSelectedList = userLists.filter((list) => list.id === selectedList);
+    console.log(validateSelectedList);
     setLists(userLists);
     //console.log("updating dom with new lists");
-    setSelectedList(userLists[0] === undefined ? null : selectedList);
+    setSelectedList(userLists[0] === undefined ? null : (validateSelectedList.length === 0 ? userLists[0].id : selectedList));
+    console.log(userLists[0].id);
   }, [userLists, selectedList]);
 
   const onRemove = (id) => {
@@ -103,10 +109,6 @@ const UserPage = ({ username, notes, userLists }) => {
     setAddList(!addList);
   };
 
-  const openDrawer = () => {
-
-  }
-
   const refreshData = () => {
     router.replace(router.asPath);
   };
@@ -116,6 +118,11 @@ const UserPage = ({ username, notes, userLists }) => {
     refreshData();
     //console.log(selectedList);
   };
+
+  const filterNotes = (notes) => {
+    console.log("I am filtering for list " + selectedList)
+    return notes.filter((note) => note.belongsTo === selectedList);
+  }
 
   //add logic here to select seperate list collections
   return (
@@ -179,7 +186,7 @@ const UserPage = ({ username, notes, userLists }) => {
         {selectedList ? (
           <List
             username={username}
-            notes={notes.filter((note) => note.belongsTo === selectedList)}
+            notes={() => filterNotes(notes)}
             listId={selectedList}
             editAuth={editAuth}
           />

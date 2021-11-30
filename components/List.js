@@ -12,7 +12,7 @@ const List = ({ username, notes, editAuth, listId }) => {
   const [noteContent, setNoteContent] = useState("");
   //set client side list to include server fetched list
   const [currentNotes, setCurrentNotes] = useState(notes);
-  const [currentList, setCurrentList] = useState(listId)
+  const [currentList, setCurrentList] = useState(listId);
   const context = useContext(userContext);
 
   //when DOM updates, ensure current notes are from the correct
@@ -20,7 +20,7 @@ const List = ({ username, notes, editAuth, listId }) => {
   useEffect(() => {
     setCurrentNotes(notes);
     setCurrentList(listId);
-    console.log("my list id is " + listId);
+    //console.log("my list id is " + listId);
     //console.log(context.username + '' + username);
     //console.log(notes);
   }, [context, username, notes, listId]);
