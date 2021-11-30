@@ -10,12 +10,14 @@ To use this app, simply navigate to https://www.monote.app/ and sign in using Go
 ## List of known bugs/future features:
 **Bugs:**
 
-#1: If navigated to another user's list, and the "My Lists" button is pressed under the profile dropdown, the user's first available list is not automatically rendered. Instead, the user must manually navigate to one of their lists.
+~~#1: If navigated to another user's list, and the "My Lists" button is pressed under the profile dropdown, the user's first available list is not automatically rendered. Instead, the user must manually navigate to one of their lists.~~
+
+#2: In mobile mode, pressing the "Add List" button when no lists are added should slide out the drawer, and autofocus to the add list input
 
 
 **Future Features:**
 
-#1: Mobile interface. Currently, the website is barely viewable on mobile. In the future, styling will be added such that list content will take up the whole screen on mobile, and different lists can be selected/created by tapping on a drawer icon to view a seperate menu.
+~~#1: Mobile interface. Currently, the website is barely viewable on mobile. In the future, styling will be added such that list content will take up the whole screen on mobile, and different lists can be selected/created by tapping on a drawer icon to view a seperate menu.~~
 
 #2: *List renaming*. Currently, lists cannot be renamed and must be deleted and recreated if there is a typo.
 
