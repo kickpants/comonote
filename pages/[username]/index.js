@@ -34,7 +34,6 @@ const UserPage = ({ username, notes, userLists }) => {
       setEditAuth(false);
     }
     setLists(userLists);
-    setSelectedList(userLists[0].id);
     //console.log("my selected list is now " + userLists[0].id);
   }, [context, username]);
 
@@ -47,7 +46,7 @@ const UserPage = ({ username, notes, userLists }) => {
     setLists(userLists);
     //console.log("updating dom with new lists");
     setSelectedList(userLists[0] === undefined ? null : (validateSelectedList.length === 0 ? userLists[0].id : selectedList));
-    console.log(userLists[0].id);
+    //console.log(userLists[0].id);
   }, [userLists, selectedList]);
 
   const onRemove = (id) => {
