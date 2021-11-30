@@ -13,9 +13,9 @@
   --light-medtext: hsl(0, 0%, 50%);
   --light-darktext: hsl(0, 0%, 40%);
 
-  --dark-lighttext: hsl(0, 0%, 95%);
+  --dark-lighttext: hsl(0, 0%, 70%);
   --dark-medtext: hsl(0, 0%, 90%);
-  --dark-darktext: hsl(0, 0%, 70%);
+  --dark-darktext: hsl(0, 0%, 95%);
 
   --lightlogo: url('../public/monote-smile-light.png');
   --darklogo: url('../public/monote-smile-dark.png');

@@ -25,7 +25,7 @@ const UserPage = ({ username, notes, userLists }) => {
   const [theme, setTheme] = useContext(themeContext);
   const router = useRouter();
 
-  useEffect( async () => {
+  useEffect(() => {
     //check if the user viewing the page is the owner
     //if so, grant permission to make edits
     if (context.username === username) {
@@ -122,7 +122,7 @@ const UserPage = ({ username, notes, userLists }) => {
     <div className={theme}>
       <div className={styles.open_drawer} onClick={() => setDrawerOpened(!drawerOpened)}><AiOutlineUnorderedList /></div>
       <div className={styles.list_container}>
-        <div className={styles.list_names} style={(window.innerWidth < 900) && drawerOpened ? {width: "400px" } : null}>
+        <div className={styles.list_names} style={typeof window !== 'undefined' && ((window.innerWidth < 900) && drawerOpened) ? {width: "400px" } : null}>
           <div className={styles.list_name_container}> 
           {/* change title code later to adjust for user's names */}
           <h1 className={styles.user_title}>{username}&apos;s lists</h1>
