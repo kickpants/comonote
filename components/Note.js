@@ -82,6 +82,7 @@ const Note = (props) => {
                     className={styles.input_subnote}
                     value={subNoteContent}
                     onChange={(e) => setSubNoteContent(e.target.value)}
+                    autoFocus
                   />
                 </form>
               </div>

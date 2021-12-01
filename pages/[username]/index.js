@@ -41,11 +41,19 @@ const UserPage = ({ username, notes, userLists }) => {
     //thank god this works now lol
     //fixed bug here: first list not loading when clicking "My Lists"
     console.log("I am validating list " + selectedList);
-    let validateSelectedList = userLists.filter((list) => list.id === selectedList);
+    let validateSelectedList = userLists.filter(
+      (list) => list.id === selectedList
+    );
     console.log(validateSelectedList);
     setLists(userLists);
     //console.log("updating dom with new lists");
-    setSelectedList(userLists[0] === undefined ? null : (validateSelectedList.length === 0 ? userLists[0].id : selectedList));
+    setSelectedList(
+      userLists[0] === undefined
+        ? null
+        : validateSelectedList.length === 0
+        ? userLists[0].id
+        : selectedList
+    );
     //console.log(userLists[0].id);
   }, [userLists, selectedList]);
 
@@ -119,23 +127,37 @@ const UserPage = ({ username, notes, userLists }) => {
   };
 
   const filterNotes = (notes) => {
-    console.log("I am filtering for list " + selectedList)
+    console.log("I am filtering for list " + selectedList);
     return notes.filter((note) => note.belongsTo === selectedList);
-  }
+  };
 
   //add logic here to select seperate list collections
   return (
     <div className={theme}>
-      <div className={styles.open_drawer} onClick={() => setDrawerOpened(!drawerOpened)}><AiOutlineUnorderedList /></div>
+      <div
+        className={styles.open_drawer}
+        onClick={() => setDrawerOpened(!drawerOpened)}
+      >
+        <AiOutlineUnorderedList />
+      </div>
       <div className={styles.list_container}>
-        <div className={styles.list_names} style={typeof window !== 'undefined' && ((window.innerWidth < 900) && drawerOpened) ? {width: "400px" } : null}>
-          <div className={styles.list_name_container}> 
-          {/* change title code later to adjust for user's names */}
-          <h1 className={styles.user_title}>{username}&apos;s lists</h1>
-          <div className={styles.user_lists}>
-            {lists.map((list) => (
-              <div key={list.id} className={styles.list_button}>
-                <div
+        <div
+          className={styles.list_names}
+          style={
+            typeof window !== "undefined" &&
+            window.innerWidth < 900 &&
+            drawerOpened
+              ? { width: "400px" }
+              : null
+          }
+        >
+          <div className={styles.list_name_container}>
+            {/* change title code later to adjust for user's names */}
+            <h1 className={styles.user_title}>{username}&apos;s lists</h1>
+            <div className={styles.user_lists}>
+              {lists.map((list) => (
+                <div key={list.id} className={styles.list_button}>
+                  <div
                     className={
                       list.id === selectedList
                         ? styles.list_title_active
@@ -161,7 +183,10 @@ const UserPage = ({ username, notes, userLists }) => {
               {editAuth &&
                 (addList ? (
                   <form onSubmit={onSubmit}>
-                    <AiOutlinePlus onClick={() => setAddList(!addList) } className={styles.list_inputlistbutton} />
+                    <AiOutlinePlus
+                      onClick={() => setAddList(!addList)}
+                      className={styles.list_inputlistbutton}
+                    />
                     &nbsp;
                     <input
                       className={styles.list_input}
@@ -192,7 +217,13 @@ const UserPage = ({ username, notes, userLists }) => {
         ) : (
           <div className={styles.intro_container}>
             <h1>To get started, add your first list!</h1>
-            <div onClick={() => setAddList(true)}>
+            <div
+              onClick={() => {
+                setAddList(true);
+                //bug fix #2
+                setDrawerOpened(true);
+              }}
+            >
               <AiOutlineUnorderedList />
             </div>
             <h3>Add List</h3>
