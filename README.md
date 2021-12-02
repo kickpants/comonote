@@ -12,7 +12,7 @@ To use this app, simply navigate to https://www.monote.app/ and sign in using Go
 
 ~~#1: If navigated to another user's list, and the "My Lists" button is pressed under the profile dropdown, the user's first available list is not automatically rendered. Instead, the user must manually navigate to one of their lists.~~
 
-#2: In mobile mode, pressing the "Add List" button when no lists are added should slide out the drawer, and autofocus to the add list input
+~~#2: In mobile mode, pressing the "Add List" button when no lists are added should slide out the drawer, and autofocus to the add list input~~
 
 
 **Future Features:**
