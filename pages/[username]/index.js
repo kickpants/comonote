@@ -11,6 +11,7 @@ import {
 } from "react-icons/ai";
 import { BiTrashAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
+import IndexHeader from "../../components/IndexHeader";
 
 const UserPage = ({ username, notes, userLists }) => {
   const [drawerOpened, setDrawerOpened] = useState(false);
@@ -134,6 +135,7 @@ const UserPage = ({ username, notes, userLists }) => {
   //add logic here to select seperate list collections
   return (
     <div className={theme}>
+      <IndexHeader username={username} />
       <div
         className={styles.open_drawer}
         onClick={() => setDrawerOpened(!drawerOpened)}
