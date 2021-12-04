@@ -1,15 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
 
-const IndexHeader = props => {
+const DefaultHeader = props => {
   return (
     <div>
       <Head>
-        <title>{props.username} - Monote</title>
+        <title>Monote</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
     </div>
   )
 }
 
-export default IndexHeader;
+export default DefaultHeader;

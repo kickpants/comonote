@@ -8,6 +8,7 @@ import {
   AiOutlinePlus,
   AiOutlineClose,
   AiOutlineUnorderedList,
+  AiOutlineEdit,
 } from "react-icons/ai";
 import { BiTrashAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
@@ -15,6 +16,8 @@ import IndexHeader from "../../components/IndexHeader";
 
 const UserPage = ({ username, notes, userLists }) => {
   const [drawerOpened, setDrawerOpened] = useState(false);
+  const [listRename, setListRename] = useState(null);
+  const [renameValue, setRenameValue] = useState("");
   const [addList, setAddList] = useState(false);
   const [lists, setLists] = useState(userLists);
   const [selectedList, setSelectedList] = useState(
@@ -117,6 +120,30 @@ const UserPage = ({ username, notes, userLists }) => {
     setAddList(!addList);
   };
 
+  const onRename = (e, list) => {
+    e.preventDefault();
+
+    const userRef = firestore
+      .collection("usernames")
+      .doc(username)
+      .collection("lists")
+      .doc(list.id);
+
+    if (renameValue.length > 0) {
+      userRef
+        .update({
+          listName: renameValue,
+        })
+        .then(() => {
+          console.log("document listname updated");
+          setListRename(null);
+          setRenameValue("");
+        });
+    }
+    
+    refreshData();
+  };
+
   const refreshData = () => {
     router.replace(router.asPath);
   };
@@ -167,18 +194,37 @@ const UserPage = ({ username, notes, userLists }) => {
                     }
                     onClick={() => changeList(list)}
                   >
-                    <div className={styles.dot} />
-                    &nbsp;{list.listName}
+                    {listRename !== list.id ? (
+                      <>
+                        <div className={styles.dot} />
+                        &nbsp;{list.listName}
+                      </>
+                    ) : (
+                      <>
+                        <div className={styles.dot} />
+                        &nbsp;
+                        <form onSubmit={(e) => onRename(e, list)}>
+                          <input
+                            autoFocus
+                            value={renameValue}
+                            className={styles.list_rename}
+                            onChange={(e) => setRenameValue(e.target.value)}
+                          />
+                        </form>
+                      </>
+                    )}
                   </div>
                   &nbsp;
-                  <div>
-                    {editAuth && (
+                  {editAuth && (
+                    <div>
                       <BiTrashAlt
                         className={styles.list_delete}
                         onClick={() => onRemove(list.id)}
                       />
+                      <AiOutlineEdit className={styles.list_delete}
+                        onClick={() => setListRename(list.id)} />
+                    </div>
                     )}
-                  </div>
                 </div>
               ))}
               <hr className={styles.list_input_spacer} />

@@ -12,6 +12,7 @@
 .list_name_container {
   position: absolute;
   left: 65px;
+  z-index: 1;
 }
 
 .open_drawer {
@@ -140,6 +141,7 @@
 .list_button {
   display: flex;
   flex-direction: row;
+  width: max-content;
 }
 
 .list_button_active {
@@ -216,7 +218,15 @@
   align-self: center;
   height: 17px;
   width: 17px;
+}
+
+.list_rename {
+  background-color: inherit;
   color: var(--darktext);
+  border: none;
+  width: 200px;
+  height: 19px;
+  font-size: 12pt;
 }
 
 .note {
