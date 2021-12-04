@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineClose, AiOutlineEdit } from "react-icons/ai";
 import { firestore, timestamp } from "../lib/firebase";
 import styles from "../styles/UserPage.module.css";
 import Note from "../components/Note";
@@ -79,14 +79,16 @@ const List = ({ username, notes, editAuth, listId }) => {
       <ul>
         {currentNotes.map((note) => (
           <div key={note.id} className={styles.list_item}>
-            <Note note={note} editAuth={editAuth} subNotes={null} />
+            <Note note={note} editAuth={editAuth} subNotes={null} username={username} />
             &nbsp;
             {editAuth && 
+            <>
               <AiOutlineClose
                 className={styles.delete}
                 style={{flex: 'none'}}
                 onClick={() => onRemoveNote(note.id)}
               />
+            </>
             }
           </div>
         ))}

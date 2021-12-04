@@ -21,7 +21,7 @@ To use this app, simply navigate to https://www.monote.app/ and sign in using Go
 
 ~~#2: *List renaming*. Currently, lists cannot be renamed and must be deleted and recreated if there is a typo.~~
 
-#3: *Note content editting*. Similar to list renaming, this is not currently possible and the note must be deleted if the content must be changed.
+~~#3: *Note content editting*. Similar to list renaming, this is not currently possible and the note must be deleted if the content must be changed.~~
 
 #4: *Sub-Note deletion*. Sub-notes cannot yet be deleted. This is an easy fix, I simply haven't gotten around to the problem yet.
 
