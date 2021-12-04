@@ -19,7 +19,7 @@ To use this app, simply navigate to https://www.monote.app/ and sign in using Go
 
 ~~#1: Mobile interface. Currently, the website is barely viewable on mobile. In the future, styling will be added such that list content will take up the whole screen on mobile, and different lists can be selected/created by tapping on a drawer icon to view a seperate menu.~~
 
-#2: *List renaming*. Currently, lists cannot be renamed and must be deleted and recreated if there is a typo.
+~~#2: *List renaming*. Currently, lists cannot be renamed and must be deleted and recreated if there is a typo.~~
 
 #3: *Note content editting*. Similar to list renaming, this is not currently possible and the note must be deleted if the content must be changed.
 
