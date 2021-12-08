@@ -35,7 +35,9 @@ const Note = (props) => {
           subnotes: [...currSubNotes, subNoteContent],
         });
       } else {
+        //update client
         setCurrSubNotes([subNoteContent]);
+        //update server
         postsRef.update({
           subnotes: [subNoteContent],
         });
@@ -59,14 +61,10 @@ const Note = (props) => {
       }).then(() => {
         console.log("note content updated");
         setCurrNoteContent(renameValue);
-        setEditNote(false);
       })
+      setEditNote(false);
       setRenameValue("");
     }
-  };
-
-  const refreshData = () => {
-    router.replace(router.asPath);
   };
 
   return (

@@ -54,14 +54,14 @@ const List = ({ username, notes, editAuth, listId }) => {
       const id = uuidv4();
 
       //update client side to include new note
-      setCurrentNotes([...currentNotes, { noteContent: noteContent, id: id, belongsTo: currentList }]);
+      setCurrentNotes([...currentNotes, { noteContent: noteContent, id: id, belongsTo: currentList.id }]);
       console.log(currentNotes);
 
       //update server side with new note
       postsRef.doc(id).set({
         noteContent: noteContent,
         createdAt: timestamp,
-        belongsTo: currentList,
+        belongsTo: currentList.id,
       });
     }
 
@@ -76,6 +76,7 @@ const List = ({ username, notes, editAuth, listId }) => {
 
   return (
     <div className={styles.list_elements}>
+      <h1>{currentList.listName}</h1>
       <ul>
         {currentNotes.map((note) => (
           <div key={note.id} className={styles.list_item}>

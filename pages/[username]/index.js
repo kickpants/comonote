@@ -21,7 +21,7 @@ const UserPage = ({ username, notes, userLists }) => {
   const [addList, setAddList] = useState(false);
   const [lists, setLists] = useState(userLists);
   const [selectedList, setSelectedList] = useState(
-    userLists[0] === undefined ? null : userLists[0].id
+    userLists[0] === undefined ? null : userLists[0]
   );
   const [listName, setListName] = useState("");
   const [editAuth, setEditAuth] = useState(null);
@@ -44,9 +44,9 @@ const UserPage = ({ username, notes, userLists }) => {
   useEffect(() => {
     //thank god this works now lol
     //fixed bug here: first list not loading when clicking "My Lists"
-    console.log("I am validating list " + selectedList);
+    console.log("I am validating list " + selectedList.id);
     let validateSelectedList = userLists.filter(
-      (list) => list.id === selectedList
+      (list) => list.id === selectedList.id
     );
     console.log(validateSelectedList);
     setLists(userLists);
@@ -55,7 +55,7 @@ const UserPage = ({ username, notes, userLists }) => {
       userLists[0] === undefined
         ? null
         : validateSelectedList.length === 0
-        ? userLists[0].id
+        ? userLists[0]
         : selectedList
     );
     //console.log(userLists[0].id);
@@ -76,12 +76,12 @@ const UserPage = ({ username, notes, userLists }) => {
     const index = lists.findIndex((list) => list.id === id);
 
     //checks to see if the list being deleted is currently selected
-    if (selectedList == lists[index].id) {
+    if (selectedList.id == lists[index].id) {
       //checks to left and right of to-be-deleted list to find suitable replacement
       if (lists[index + 1] !== undefined) {
-        setSelectedList(lists[index + 1].id);
+        setSelectedList(lists[index + 1]);
       } else if (lists[index - 1] !== undefined) {
-        setSelectedList(lists[index - 1].id);
+        setSelectedList(lists[index - 1]);
       }
     }
     //if none is found, useEffect hook will notice there are no remaining lists on DOM refresh
@@ -149,14 +149,14 @@ const UserPage = ({ username, notes, userLists }) => {
   };
 
   const changeList = (list) => {
-    setSelectedList(list.id);
+    setSelectedList(list);
     refreshData();
-    //console.log(selectedList);
+    console.log(selectedList);
   };
 
   const filterNotes = (notes) => {
-    console.log("I am filtering for list " + selectedList);
-    return notes.filter((note) => note.belongsTo === selectedList);
+    console.log("I am filtering for list " + selectedList.id);
+    return notes.filter((note) => note.belongsTo === selectedList.id);
   };
 
   //add logic here to select seperate list collections
@@ -188,7 +188,7 @@ const UserPage = ({ username, notes, userLists }) => {
                 <div key={list.id} className={styles.list_button}>
                   <div
                     className={
-                      list.id === selectedList
+                      list.id === selectedList.id
                         ? styles.list_title_active
                         : styles.list_title
                     }
@@ -255,7 +255,7 @@ const UserPage = ({ username, notes, userLists }) => {
             </div>
           </div>
         </div>
-        {selectedList ? (
+        {selectedList.id ? (
           <List
             username={username}
             notes={() => filterNotes(notes)}
