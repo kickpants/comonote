@@ -23,7 +23,7 @@ To use this app, simply navigate to https://www.monote.app/ and sign in using Go
 
 ~~#3: *Note content editting*. Similar to list renaming, this is not currently possible and the note must be deleted if the content must be changed.~~
 
-#4: *Sub-Note deletion*. Sub-notes cannot yet be deleted. This is an easy fix, I simply haven't gotten around to the problem yet.
+~~#4: *Sub-Note deletion*. Sub-notes cannot yet be deleted. This is an easy fix, I simply haven't gotten around to the problem yet.~~
 
 #5: *List privating*. Lists should be able to be kept private if the user wishes for them to be. Meaning, the only viewer of the list can be the creator, and not site visitors.
 

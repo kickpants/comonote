@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/UserPage.module.css";
 import { useRouter } from "next/router";
-import { AiOutlineDown, AiOutlinePlus, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDown, AiOutlinePlus, AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
 import { firestore } from "../lib/firebase";
 
 const Note = (props) => {
@@ -49,11 +49,11 @@ const Note = (props) => {
     }
   };
 
-  const onRename = (e, noteId) => {
+  const onRename = (e) => {
     e.preventDefault();
 
     const userRef = firestore.collection('usernames').doc(props.username);
-    const postRef = userRef.collection('posts').doc(noteId);
+    const postRef = userRef.collection('posts').doc(props.note.id);
 
     if(renameValue.length > 0) {
       postRef.update({
@@ -67,6 +67,20 @@ const Note = (props) => {
     }
   };
 
+  const onRemoveSubnote = (subNoteId) => {
+    const userRef = firestore.collection('usernames').doc(props.username);
+    const postRef = userRef.collection('posts').doc(props.note.id);
+
+    //Update server side
+    postRef.update({
+      subnotes: currSubNotes.filter((subNote, index) => index != subNoteId)
+    }).then(() => {
+      //update client interface
+      console.log("Subnote successfully removed");
+      setCurrSubNotes(currSubNotes.filter((subNote, index) => index != subNoteId));
+    })
+  }
+
   return (
     <li className={styles.note}>
       <div className={styles.note_title}>
@@ -75,7 +89,7 @@ const Note = (props) => {
           onClick={() => setDrop(!drop)}
         />
         {editNote ? (
-          <form onSubmit={(e) => onRename(e, props.note.id)}>
+          <form onSubmit={(e) => onRename(e)}>
             &nbsp;
             <input className={styles.note_rename} value={renameValue} onChange={e => setRenameValue(e.target.value)} autoFocus />
           </form>
@@ -96,12 +110,21 @@ const Note = (props) => {
       {drop ? (
         <ul className={styles.subnote_container}>
           {currSubNotes &&
-            currSubNotes.map((item) => (
-              <div key={item.id} className={styles.subnote}>
+            currSubNotes.map((item, index) => (
+              <>
+              <div key={index} className={styles.subnote}>
                 <div className={styles.dot} style={{ flex: "none" }} />
                 &nbsp;
                 <span className={styles.spacer}>{item}</span>
+                {props.editAuth && 
+                <AiOutlineClose
+                  className={styles.delete_subnote}
+                  style={{flex: 'none'}}
+                  onClick={() => onRemoveSubnote(index)}
+                />
+              }
               </div>
+              </>
             ))}
           {props.editAuth &&
             (!addSubNote ? (

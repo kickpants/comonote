@@ -335,6 +335,24 @@
   cursor: pointer;
 }
 
+.subnote:hover .delete_subnote {
+  opacity: 0.4;
+}
+
+.subnote:hover .delete_subnote:hover {
+  opacity: 1;
+}
+
+.delete_subnote {
+  color: var(--darktext);
+  align-self: center;
+  opacity: 0;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
 .spacer {
   padding-left: 3px;
 }
