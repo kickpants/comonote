@@ -43,10 +43,14 @@ const UserPage = ({ username, notes, userLists }) => {
 
   useEffect(() => {
     //thank god this works now lol
-    //fixed bug here: first list not loading when clicking "My Lists"
-    let validateSelectedList = userLists.filter(
+    //fixed bug here: first list not rendering when clicking "My Lists"
+    console.log(userLists);
+    console.log(selectedList);
+    
+    //checks if user is creating first list, and sets their selected list
+    let validateSelectedList = selectedList !== null ? userLists.filter(
       (list) => list.id === selectedList.id
-    );
+    ) : [];
     console.log(validateSelectedList);
     setLists(userLists);
     //console.log("updating dom with new lists");
@@ -108,15 +112,13 @@ const UserPage = ({ username, notes, userLists }) => {
         listName: listName,
         createdAt: timestamp,
       })
-      .then(() => {
-        refreshData();
-      });
 
     //console.log(lists);
 
     //clean up input
     setListName("");
     setAddList(!addList);
+    refreshData();
   };
 
   const onRename = (e, list) => {
@@ -229,14 +231,13 @@ const UserPage = ({ username, notes, userLists }) => {
               <hr className={styles.list_input_spacer} />
               {editAuth &&
                 (addList ? (
-                  <form onSubmit={onSubmit}>
+                  <form onSubmit={onSubmit} className={styles.list_input}>
                     <AiOutlinePlus
                       onClick={() => setAddList(!addList)}
                       className={styles.list_inputlistbutton}
                     />
                     &nbsp;
                     <input
-                      className={styles.list_input}
                       value={listName}
                       onChange={(e) => setListName(e.target.value)}
                       autoFocus
