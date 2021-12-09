@@ -44,7 +44,6 @@ const UserPage = ({ username, notes, userLists }) => {
   useEffect(() => {
     //thank god this works now lol
     //fixed bug here: first list not loading when clicking "My Lists"
-    console.log("I am validating list " + selectedList.id);
     let validateSelectedList = userLists.filter(
       (list) => list.id === selectedList.id
     );
@@ -255,7 +254,7 @@ const UserPage = ({ username, notes, userLists }) => {
             </div>
           </div>
         </div>
-        {selectedList.id ? (
+        {selectedList ? (
           <List
             username={username}
             notes={() => filterNotes(notes)}
