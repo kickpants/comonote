@@ -89,8 +89,6 @@ const UserPage = ({ username, notes, userLists }) => {
     }
     //if none is found, useEffect hook will notice there are no remaining lists on DOM refresh
 
-    setLists(lists.filter((list) => list.id !== id));
-
     userRef
       .collection("lists")
       .doc(id)
@@ -107,18 +105,25 @@ const UserPage = ({ username, notes, userLists }) => {
     const userRef = firestore.collection("usernames").doc(username);
     const listRef = userRef.collection("lists");
 
+    /*
+    !IMPORTANT NOTE! :
+    lists creation cannot be managed client side like everything else.
+    notes in lists rely on list ID's that are auto generated server-side.
+    this means that the page must be refreshed on list creation to obtain
+    the ID.
+    */
     listRef
       .add({
         listName: listName,
         createdAt: timestamp,
+      }).then(() => {
+        refreshData();
       })
 
     //console.log(lists);
-
     //clean up input
     setListName("");
     setAddList(!addList);
-    refreshData();
   };
 
   const onRename = (e, list) => {
