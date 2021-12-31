@@ -111,6 +111,8 @@ const UserPage = ({ username, notes, userLists }) => {
       .add({
         listName: listName,
         createdAt: timestamp,
+      }).then(() => {
+        refreshData();
       })
 
     //console.log(lists);
@@ -118,7 +120,6 @@ const UserPage = ({ username, notes, userLists }) => {
     //clean up input
     setListName("");
     setAddList(!addList);
-    refreshData();
   };
 
   const onRename = (e, list) => {
